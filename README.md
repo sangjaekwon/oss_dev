@@ -8,5 +8,5 @@
 ### 헤더3
 #### 헤더4
 
-동아대학교 홈페이지는 [여기](https://www.donga.ac.kr)로
+동아대학교 홈페이지는 [여기](https://www.donga.ac.kr)로  
 My GitHub page is available [here](https://github.com/sangjaekwon)

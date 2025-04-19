@@ -11,7 +11,7 @@
 동아대학교 홈페이지는 [여기](https://www.donga.ac.kr)로  
 My GitHub page is available [here](https://github.com/sangjaekwon)         
   
-![alt text](https://postfiles.pstatic.net/20160428_11/ohminho_1461803883530TEh4n_JPEG/%B1%B3%C0%B0%2C%B4%EB%C7%D0%2C%C7%D0%B1%B3%B5%BF%BE%C6%B4%EB%C7%D0%B1%B3%B7%CE%B0%ED.jpg?type=w3840 "title")  
+![alt text](https://postfiles.pstatic.net/20160428_11/ohmiho_1461803883530TEh4n_JPEG/%B1%B3%C0%B0%2C%B4%EB%C7%D0%2C%C7%D0%B1%B3%B5%BF%BE%C6%B4%EB%C7%D0%B1%B3%B7%CE%B0%ED.jpg?type=w3840 "title")  
 
 > 1. "The computer was born to solve problems that did not exist before.” —Bill Gates, Microsoft founder and former CEO, philanthropist  
 > 2. “Most of the good programmers do programming not because they expect to get paid or get adulation by the public, but because it is fun to program.” —Linus Torvalds, software engineer, inventor of the Linux operating system3.  

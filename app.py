@@ -15,10 +15,6 @@ def load_data():
     
     df = pd.read_csv("accident_stats.csv", encoding=encoding)
     
-    # 컬럼명 확인
-    st.write("파일 컬럼명 확인:")
-    st.write(df.columns)  # 실제 컬럼명 확인
-
     # 컬럼명 전처리 (여기서는 공백 제거)
     df.columns = df.columns.str.strip()
     return df
@@ -27,16 +23,18 @@ df = load_data()
 
 # ---- 사이드바 필터 ----
 st.sidebar.header("🧪 필터 설정")
-selected_year = st.sidebar.selectbox("년도", sorted(df["시도"].unique()))
+selected_year = st.sidebar.selectbox("년도", sorted(df["년도"].unique()))
 selected_sido = st.sidebar.multiselect("시도", df["시도"].unique(), default=["서울특별시"])
 
 # ---- 필터 적용 ----
 filtered = df[
-    (df["시도"].isin(selected_sido))
+    (df["시도"].isin(selected_sido)) & 
+    (df["년도"] == selected_year)  # 선택한 년도에 맞는 데이터 필터링
 ]
 
 st.title("🚧 시도/시군구별 교통사고 통계 분석")
 st.write(f"▶️ 선택된 시도: {', '.join(selected_sido)}")
+st.write(f"▶️ 선택된 년도: {selected_year}")
 
 # ---- 데이터 표 ----
 st.subheader("📋 사고 통계 테이블")
@@ -57,8 +55,9 @@ st.plotly_chart(injury_chart)
 
 # ---- 시도별 사고 추이 (월별) ----
 st.subheader("📈 사고 발생 추이")
-yearly_trend = df.groupby(["시도"])["사고건수"].sum().reset_index()
-line = px.pie(yearly_trend, names="시도", values="사고건수", title="시도별 사고 발생 건수 비율")
+yearly_trend = df.groupby(["시도", "년도"])["사고건수"].sum().reset_index()
+yearly_trend_filtered = yearly_trend[yearly_trend["시도"].isin(selected_sido)]
+line = px.line(yearly_trend_filtered, x="년도", y="사고건수", color="시도", title="시도별 사고 발생 추이")
 st.plotly_chart(line)
 
 # ---- 지도 시각화 ----

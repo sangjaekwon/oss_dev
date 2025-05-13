@@ -1,13 +1,19 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import chardet
 import folium
 from streamlit_folium import folium_static
 
 # ---- 데이터 로딩 ----
 @st.cache_data
 def load_data():
-    df = pd.read_csv("accident_stats.csv", encoding="utf-8")
+    # 인코딩 자동 감지
+    with open("accident_stats.csv", "rb") as f:
+        result = chardet.detect(f.read())
+        encoding = result["encoding"]
+    
+    df = pd.read_csv("accident_stats.csv", encoding=encoding)
     return df
 
 df = load_data()

@@ -335,41 +335,7 @@ location_data = {
 
 # 지도 생성
 m = folium.Map(location=[37.5665, 126.9780], zoom_start=7)
-# 1. 시군구 이름 클렌징
-filtered['시군구'] = filtered['시군구'].str.strip()  # 공백 제거
 
-# 2. 위치 정보가 없는 시군구 체크 (디버깅용)
-for _, row in filtered.iterrows():
-    sigungu = row['시군구']
-    if sigungu not in location_data:
-        st.write(f"위치 정보 없음: {sigungu}")
-
-# 3. 지도 생성 코드 시작
-m = folium.Map(location=[37.5665, 126.9780], zoom_start=11)
-
-# 4. 지도에 시군구 데이터 추가
-for _, row in filtered.iterrows():
-    sido = row['시도']
-    sigungu = row['시군구']
-    
-    # location_data에 시군구가 존재하는지 확인하고 추가
-    if sigungu in location_data:  # 좌표 데이터가 있는 경우에만 표시
-        latitude, longitude = location_data[sigungu]
-        accident_count = row['사고건수']
-        
-        # 마커 추가
-        folium.CircleMarker(
-            location=[latitude, longitude],
-            radius=5,
-            color="blue",
-            fill=True,
-            fill_color="blue",
-            fill_opacity=0.6,
-            popup=f"{sigungu} 사고건수: {accident_count}",
-        ).add_to(m)
-
-# 5. 스트림릿에서 지도 표시
-st.write(m)
 
 # 필터링된 시군구에 대해서만 마커 표시
 for _, row in filtered.iterrows():

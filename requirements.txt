@@ -1,5 +1,5 @@
 streamlit
 pandas
 plotly
-openpyxl
-chardet
+folium
+streamlit-folium

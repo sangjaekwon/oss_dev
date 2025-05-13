@@ -370,8 +370,8 @@ gyeongnam_lat_range = (35.0, 35.5)
 gyeongnam_lon_range = (128.0, 129.0)
 
 # 경북
-gyeongbuk_lat_range = (35.7, 36.0)
-gyeongbuk_lon_range = (128.5, 129.2)
+gyeongbuk_lat_range = (30.7, 38.0)
+gyeongbuk_lon_range = (126.5, 132.2)
 
 # 전남
 jeonnam_lat_range = (34.5, 35.2)

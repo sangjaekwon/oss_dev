@@ -334,7 +334,7 @@ location_data = {
 }
 
 # 지도 생성
-m = folium.Map(location=[37.5665, 126.9780], zoom_start=7)
+m = folium.Map(location=[36.9875, 127.5319], zoom_start=7)
 
 # 각 시도의 위도, 경도 범위 설정
 # 서울

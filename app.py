@@ -336,6 +336,85 @@ location_data = {
 # 지도 생성
 m = folium.Map(location=[37.5665, 126.9780], zoom_start=7)
 
+# 각 시도의 위도, 경도 범위 설정
+# 서울
+seoul_lat_range = (37.4, 37.7)
+seoul_lon_range = (126.8, 127.2)
+
+# 부산
+busan_lat_range = (35.1, 35.3)
+busan_lon_range = (129.0, 129.3)
+
+# 대구
+daegu_lat_range = (35.8, 35.9)
+daegu_lon_range = (128.5, 128.7)
+
+# 인천
+incheon_lat_range = (37.3, 37.5)
+incheon_lon_range = (126.4, 126.7)
+
+# 대전
+daejeon_lat_range = (36.3, 36.5)
+daejeon_lon_range = (127.3, 127.5)
+
+# 울산
+ulsan_lat_range = (35.5, 35.6)
+ulsan_lon_range = (129.3, 129.5)
+
+# 경기
+gyeonggi_lat_range = (37.0, 38.0)
+gyeonggi_lon_range = (126.6, 127.5)
+
+# 경남
+gyeongnam_lat_range = (35.0, 35.5)
+gyeongnam_lon_range = (128.0, 129.0)
+
+# 경북
+gyeongbuk_lat_range = (35.7, 36.0)
+gyeongbuk_lon_range = (128.5, 129.2)
+
+# 전남
+jeonnam_lat_range = (34.5, 35.2)
+jeonnam_lon_range = (126.1, 126.8)
+
+# 전북
+jeonbuk_lat_range = (35.5, 36.0)
+jeonbuk_lon_range = (127.0, 127.5)
+
+# 세종
+sejong_lat_range = (36.4, 36.5)
+sejong_lon_range = (127.2, 127.3)
+
+# 강원
+gangwon_lat_range = (37.3, 38.3)
+gangwon_lon_range = (127.5, 129.0)
+
+# 충북
+chungbuk_lat_range = (36.5, 37.0)
+chungbuk_lon_range = (127.3, 128.0)
+
+# 충남
+chungnam_lat_range = (36.5, 37.0)
+chungnam_lon_range = (126.7, 127.5)
+
+# 시도별 범위 딕셔너리
+city_lat_lon_range = {
+    '서울': (seoul_lat_range, seoul_lon_range),
+    '부산': (busan_lat_range, busan_lon_range),
+    '대구': (daegu_lat_range, daegu_lon_range),
+    '인천': (incheon_lat_range, incheon_lon_range),
+    '대전': (daejeon_lat_range, daejeon_lon_range),
+    '울산': (ulsan_lat_range, ulsan_lon_range),
+    '경기': (gyeonggi_lat_range, gyeonggi_lon_range),
+    '경남': (gyeongnam_lat_range, gyeongnam_lon_range),
+    '경북': (gyeongbuk_lat_range, gyeongbuk_lon_range),
+    '전남': (jeonnam_lat_range, jeonnam_lon_range),
+    '전북': (jeonbuk_lat_range, jeonbuk_lon_range),
+    '세종': (sejong_lat_range, sejong_lon_range),
+    '강원': (gangwon_lat_range, gangwon_lon_range),
+    '충북': (chungbuk_lat_range, chungbuk_lon_range),
+    '충남': (chungnam_lat_range, chungnam_lon_range)
+}
 
 # 필터링된 시군구에 대해서만 마커 표시
 for _, row in filtered.iterrows():
@@ -344,18 +423,25 @@ for _, row in filtered.iterrows():
     
     if sigungu in location_data:  # 좌표 데이터가 있는 경우에만 표시
         latitude, longitude = location_data[sigungu]
-        accident_count = row['사고건수']
         
-        # 마커 추가
-        folium.CircleMarker(
-            location=[latitude, longitude],
-            radius=5,
-            color="blue",
-            fill=True,
-            fill_color="blue",
-            fill_opacity=0.6,
-            popup=f"{sigungu} 사고건수: {accident_count}",
-        ).add_to(m)
+        # 해당 시도의 범위 가져오기
+        if sido in city_lat_lon_range:
+            lat_range, lon_range = city_lat_lon_range[sido]
+            
+            # 시도의 범위 안에 있는 좌표만 마커 표시
+            if lat_range[0] <= latitude <= lat_range[1] and lon_range[0] <= longitude <= lon_range[1]:
+                accident_count = row['사고건수']
+                
+                # 마커 추가
+                folium.CircleMarker(
+                    location=[latitude, longitude],
+                    radius=5,
+                    color="blue",
+                    fill=True,
+                    fill_color="blue",
+                    fill_opacity=0.6,
+                    popup=f"{sigungu} 사고건수: {accident_count}",
+                ).add_to(m)
 
 # 지도 출력
 folium_static(m)

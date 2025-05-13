@@ -1,11 +1,13 @@
-  import streamlit as st
+import streamlit as st
 import pandas as pd
 import plotly.express as px
+import folium
+from streamlit_folium import folium_static
 
 # ---- 데이터 로딩 ----
 @st.cache_data
 def load_data():
-    df = pd.read_csv("accident_stats.csv", encoding="cp949")  # 인코딩 주의
+    df = pd.read_csv("accident_stats.csv", encoding="cp949")
     return df
 
 df = load_data()
@@ -48,7 +50,9 @@ st.plotly_chart(bar)
 
 # ---- 시군구별 부상자 유형 비교 ----
 st.subheader("🤕 부상자 유형 비교")
-injury_df = filtered[["시군구", "중상자수", "경상자수", "부상신고자수"]].melt(id_vars="시군구", var_name="부상자유형", value_name="인원수")
+injury_df = filtered[["시군구", "중상자수", "경상자수", "부상신고자수"]].melt(
+    id_vars="시군구", var_name="부상자유형", value_name="인원수"
+)
 injury_chart = px.bar(injury_df, x="시군구", y="인원수", color="부상자유형", barmode="group", title="시군구별 부상자 유형 비교")
 st.plotly_chart(injury_chart)
 
@@ -57,3 +61,38 @@ st.subheader("📈 월별 사고 추이")
 monthly_trend = df[df["시도"].isin(selected_sido)].groupby(["년도", "월"])["발생건수"].sum().reset_index()
 line = px.line(monthly_trend, x="월", y="발생건수", color="년도", title="월별 발생건수 추이")
 st.plotly_chart(line)
+
+# ---- 지도 시각화 ----
+st.subheader("🗺️ 사고 건수 지도 시각화 (서울 일부)")
+
+# 서울 일부 시군구 좌표
+location_data = {
+    '종로구': [37.5729503, 126.9793579],
+    '중구': [37.5638439, 126.997602],
+    '용산구': [37.5324275, 126.990146],
+    '성동구': [37.550978, 127.040580],
+    '광진구': [37.538484, 127.082293],
+    '동대문구': [37.574368, 127.039569],
+    '중랑구': [37.606991, 127.092789],
+    '성북구': [37.589400, 127.016637],
+    '강북구': [37.646995, 127.014573],
+}
+
+map_center = [37.5665, 126.9780]
+m = folium.Map(location=map_center, zoom_start=11)
+
+for _, row in filtered.iterrows():
+    sigungu = row["시군구"]
+    count = row["발생건수"]
+    if sigungu in location_data:
+        lat, lon = location_data[sigungu]
+        folium.CircleMarker(
+            location=[lat, lon],
+            radius=min(count / 5, 20),
+            popup=f"{sigungu}: {count}건",
+            color='crimson',
+            fill=True,
+            fill_color='crimson'
+        ).add_to(m)
+
+folium_static(m)

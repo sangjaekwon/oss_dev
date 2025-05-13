@@ -7,7 +7,7 @@ from streamlit_folium import folium_static
 # ---- 데이터 로딩 ----
 @st.cache_data
 def load_data():
-    df = pd.read_csv("accident_stats.csv", encoding="cp949")
+    df = pd.read_csv("accident_stats.csv", encoding="utf-8")
     return df
 
 df = load_data()

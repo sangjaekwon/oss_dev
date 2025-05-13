@@ -331,6 +331,9 @@ location_data = {
     '완도군': [34.3049, 126.7420],
     '진도군': [34.4840, 126.2217],
     '신안군': [34.7001, 126.0814],
+
+    '제주시': [33.4996, 126.5312],
+    '서귀포시': [33.2548, 126.5604]
 }
 
 # 지도 생성
@@ -397,6 +400,8 @@ chungbuk_lon_range = (127.0, 128.5)
 chungnam_lat_range = (36.0, 37.5)
 chungnam_lon_range = (126.0, 128.0)
 
+jeju_lat_range = (32.5, 35.0)
+jeju_lon_range = (125.5, 127.5)
 # 시도별 범위 딕셔너리
 city_lat_lon_range = {
     '서울': (seoul_lat_range, seoul_lon_range),
@@ -413,7 +418,8 @@ city_lat_lon_range = {
     '세종': (sejong_lat_range, sejong_lon_range),
     '강원': (gangwon_lat_range, gangwon_lon_range),
     '충북': (chungbuk_lat_range, chungbuk_lon_range),
-    '충남': (chungnam_lat_range, chungnam_lon_range)
+    '충남': (chungnam_lat_range, chungnam_lon_range),
+    '제주': (jeju_lat_range, jeju_lon_range)
 }
 
 # 필터링된 시군구에 대해서만 마커 표시

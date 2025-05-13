@@ -37,14 +37,6 @@ bar = px.bar(filtered, x="시군구", y="사고건수", color="시도", title="�
 st.plotly_chart(bar)
 # ---- 지도 시각화 ----
 st.subheader("🗺️ 사고 건수 지도 시각화 (대한민국 전체)")
-
-st.subheader("🤕 부상자 유형 비교")
-injury_df = filtered[["시군구", "중상자수", "경상자수", "부상신고자수"]].melt(
-    id_vars="시군구", var_name="부상자유형", value_name="인원수"
-)
-injury_chart = px.bar(injury_df, x="시군구", y="인원수", color="부상자유형", barmode="group", title="시군구별 부상자 유형 비교")
-st.plotly_chart(injury_chart)
-
 # 대한민국 시군구 좌표 (시도별 대략적인 좌표 예시)
 location_data = {
     # 서울

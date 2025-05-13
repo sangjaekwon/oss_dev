@@ -23,7 +23,7 @@ df = load_data()
 
 # ---- 사이드바 필터 ----
 st.sidebar.header("🧪 필터 설정")
-selected_sido = st.sidebar.multiselect("시도", df["시도"].unique(), default=["서울특별시"])
+selected_sido = st.sidebar.multiselect("시도", df["시도"].unique())
 
 # ---- 필터 적용 ----
 filtered = df[df["시도"].isin(selected_sido)]  # 선택한 시도에 맞는 데이터 필터링

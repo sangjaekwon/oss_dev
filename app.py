@@ -333,22 +333,28 @@ location_data = {
     '신안군': [34.7001, 126.0814],
 }
 
-map_center = [36.5, 127.5]  # 대한민국의 대략적인 중심
-m = folium.Map(location=map_center, zoom_start=7)
+# 지도 생성
+m = folium.Map(location=[37.5665, 126.9780], zoom_start=7)
 
-# 사고 건수에 따른 마커 추가
+# 필터링된 시군구에 대해서만 마커 표시
 for _, row in filtered.iterrows():
-    sigungu = row["시군구"]
-    count = row["사고건수"]
-    if sigungu in location_data:
-        lat, lon = location_data[sigungu]
+    sido = row['시도']
+    sigungu = row['시군구']
+    
+    if sigungu in location_data:  # 좌표 데이터가 있는 경우에만 표시
+        latitude, longitude = location_data[sigungu]
+        accident_count = row['사고건수']
+        
+        # 마커 추가
         folium.CircleMarker(
-            location=[lat, lon],
-            radius=min(count / 5, 20),  # 사고 건수가 클수록 큰 마커
-            popup=f"{sigungu}: {count}건",
-            color='crimson',
+            location=[latitude, longitude],
+            radius=5,
+            color="blue",
             fill=True,
-            fill_color='crimson'
+            fill_color="blue",
+            fill_opacity=0.6,
+            popup=f"{sigungu} 사고건수: {accident_count}",
         ).add_to(m)
 
+# 지도 출력
 folium_static(m)

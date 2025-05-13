@@ -1,9 +1,9 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import chardet
 import folium
 from streamlit_folium import folium_static
+import chardet
 
 # ---- 데이터 로딩 ----
 @st.cache_data
@@ -14,20 +14,25 @@ def load_data():
         encoding = result["encoding"]
     
     df = pd.read_csv("accident_stats.csv", encoding=encoding)
+    
+    # 컬럼명 확인
+    st.write("파일 컬럼명 확인:")
+    st.write(df.columns)  # 실제 컬럼명 확인
+
+    # 컬럼명 전처리
+    df.columns = df.columns.str.strip()
+    df = df.rename(columns={
+        "발생_년": "년도",
+        "발생_월": "월",
+        "발생건수": "발생건수",
+        "사망자수": "사망자수",
+        "중상자수": "중상자수",
+        "경상자수": "경상자수",
+        "부상신고자수": "부상신고자수"
+    })
     return df
 
 df = load_data()
-
-# ---- 전처리 ----
-df.columns = df.columns.str.strip()
-df = df.rename(columns={
-    "발생년": "년도", "발생월": "월",
-    "발생건수": "발생건수",
-    "사망자수": "사망자수",
-    "중상자수": "중상자수",
-    "경상자수": "경상자수",
-    "부상신고자수": "부상신고자수"
-})
 
 # ---- 사이드바 필터 ----
 st.sidebar.header("🧪 필터 설정")
